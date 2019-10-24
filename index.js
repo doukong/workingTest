@@ -1,14 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const randomstring = require('randomstring')
-const reigsterJson = require('./register')
+const fs = require('fs')
+const registerJson = require('./register.json')
 
 const app = express()
 const port = 3000
 
 function findUrl(url){
     let id = "not"
-    reigsterJson.map(Data=>{
+    registerJson.map(Data=>{
         if(Data.url == url){
             id = Data.id 
         }
@@ -16,14 +17,16 @@ function findUrl(url){
     return id
 }
 function makeId(findUrl){
-    reigsterJson.push({url:findUrl,id:randomstring.generate(7)})
-    console.log(reigsterJson)
+    urlId = randomstring.generate(7)
+    registerJson.push({url:findUrl,id:urlId})
+    // let writeJson = JSON.stringify(registerJson)
+    return urlId
 }
 
 app.post("/register.json",(req,res)=>{
     const id = findUrl(req.query.url)
     if(id == "not"){
-        makeId(req.query.url)
+        res.status(201).contentType('application/json').json({Body:{ url: `http://localhost:3000/${makeId(req.query.url)}`}})
     }else{
         res.status(200).contentType('application/json').json({Body: { url: `http://localhost:3000/${id}`} })
     }
