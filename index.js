@@ -16,12 +16,24 @@ function findUrl(url){
     })
     return id
 }
+
+function findId(id){
+    let originUrl = ""
+    registerJson.map(Data=>{
+        if(Data.id==id){
+            originUrl = Data.url
+        }
+    })
+    return originUrl
+}
+
 function makeId(findUrl){
     urlId = randomstring.generate(7)
     registerJson.push({url:findUrl,id:urlId})
     // let writeJson = JSON.stringify(registerJson)
     return urlId
 }
+
 
 app.post("/register.json",(req,res)=>{
     const id = findUrl(req.query.url)
@@ -30,6 +42,11 @@ app.post("/register.json",(req,res)=>{
     }else{
         res.status(200).contentType('application/json').json({Body: { url: `http://localhost:3000/${id}`} })
     }
+})
+
+app.get("/:id",(req,res)=>{
+    const originalUrl = findId(req.params.id)
+    console.log(originalUrl)
 })
 
 app.listen(port,()=>console.log("work"))
