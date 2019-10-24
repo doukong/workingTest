@@ -1,10 +1,16 @@
 [
     {
         "url":"hi",
-        "id":"asdf"
+        "id":"asdf",
+        "stats":[
+
+        ]
     },
     {
         "url":"http://www.vingle.net",
-        "id":"whatthe"
+        "id":"whatthe",
+        "stats":[
+            
+        ]
     }
 ]
